@@ -34,7 +34,7 @@ config:
 
 run:
 	@clear
-	@./$(NAME)
+	@./$(NAME) 5 800 200 200
 
 $(NAME): $(LIB)
 	@$(CC) $(FLAGS) $(MAIN) -g -L. -pthread $(LIB) -o $@
