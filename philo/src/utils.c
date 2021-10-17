@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:11:52 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/10/17 17:21:46 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/10/17 17:51:01 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,24 @@ static void	populate_lst_philos(t_params *params)
 	}
 }
 
+static void	populate_lst_forks(t_params *params)
+{
+	t_fork	*new_fork;
+	int		i;
+
+	params->lst_forks = ft_lst_new_fork();
+	i = 1;
+	while (i < params->number_of_philo)
+	{
+		new_fork = (t_fork *)malloc(sizeof(t_fork));
+		new_fork->number = i;
+		new_fork->availability = true;
+		new_fork->next = NULL;
+		ft_lstadd_back_fork(&params->lst_forks,new_fork);
+		i++;
+	}
+}
+
 void	set_philos(t_params *params, int argc, char *argv[ ])
 {
 	params->number_of_philo = ft_atoi(argv[1]);
@@ -82,4 +100,5 @@ void	set_philos(t_params *params, int argc, char *argv[ ])
 	else
 		params->number_times_philo_eat = -1;
 	populate_lst_philos(params);
+	populate_lst_forks(params);
 }
