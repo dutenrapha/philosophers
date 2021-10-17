@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:39:03 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/10/17 16:59:26 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/10/17 17:18:28 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,6 @@
 # include <pthread.h>
 # include <stdlib.h>
 
-typedef struct s_params
-{
-	int	number_of_philo;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	time_to_die;
-	int	number_times_philo_eat;
-}						t_params;
-
 typedef struct s_philo
 {
 	int				name;
@@ -33,6 +24,15 @@ typedef struct s_philo
 	struct s_philo	*next;
 }						t_philo;
 
+typedef struct s_params
+{
+	int	number_of_philo;
+	int	time_to_eat;
+	int	time_to_sleep;
+	int	time_to_die;
+	int	number_times_philo_eat;
+	t_philo		*lst_philos;
+}						t_params;
 
 void	set_philos(t_params *parmas, int argc, char *argv[ ]);
 t_philo *ft_lst_new_philo(void);
