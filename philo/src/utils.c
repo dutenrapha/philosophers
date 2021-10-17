@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:11:52 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/10/13 19:31:41 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/10/17 16:46:04 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static	int	ft_return(int sinal)
 	}
 }
 
-int	ft_atoi(const char *nptr)
+static int	ft_atoi(const char *nptr)
 {
 	int			i;
 	int			sinal;
@@ -53,15 +53,14 @@ int	ft_atoi(const char *nptr)
 	return (unidade * sinal);
 }
 
-void	set_philos(t_philo *philos, int argc, char *argv[ ])
+void	set_philos(t_params *params, int argc, char *argv[ ])
 {
-	philos->number_of_philo = ft_atoi(argv[1]);
-	philos->time_to_eat = ft_atoi(argv[2]);
-	philos->time_to_sleep = ft_atoi(argv[3]);
-	philos->time_to_die = ft_atoi(argv[4]);
+	params->number_of_philo = ft_atoi(argv[1]);
+	params->time_to_eat = ft_atoi(argv[2]);
+	params->time_to_sleep = ft_atoi(argv[3]);
+	params->time_to_die = ft_atoi(argv[4]);
 	if (argc == 6)
-		philos->number_times_philo_eat = ft_atoi(argv[5]);
+		params->number_times_philo_eat = ft_atoi(argv[5]);
 	else
-		philos->number_times_philo_eat = -1;
-
+		params->number_times_philo_eat = -1;
 }
