@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:11:52 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/10/17 17:51:01 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/10/29 05:14:18 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,52 +53,17 @@ static int	ft_atoi(const char *nptr)
 	return (unidade * sinal);
 }
 
-static void	populate_lst_philos(t_params *params)
-{
-	t_philo	*new_philo;
-	int		i;
-
-	params->lst_philos = ft_lst_new_philo();
-	i = 1;
-	while (i < params->number_of_philo)
-	{
-		new_philo = (t_philo *)malloc(sizeof(t_philo));
-		new_philo->name = i;
-		new_philo->status = 0;
-		new_philo->next = NULL;
-		ft_lstadd_back_philo(&params->lst_philos,new_philo);
-		i++;
-	}
-}
-
-static void	populate_lst_forks(t_params *params)
-{
-	t_fork	*new_fork;
-	int		i;
-
-	params->lst_forks = ft_lst_new_fork();
-	i = 1;
-	while (i < params->number_of_philo)
-	{
-		new_fork = (t_fork *)malloc(sizeof(t_fork));
-		new_fork->number = i;
-		new_fork->availability = true;
-		new_fork->next = NULL;
-		ft_lstadd_back_fork(&params->lst_forks,new_fork);
-		i++;
-	}
-}
-
 void	set_philos(t_params *params, int argc, char *argv[ ])
 {
 	params->number_of_philo = ft_atoi(argv[1]);
 	params->time_to_eat = ft_atoi(argv[2]);
 	params->time_to_sleep = ft_atoi(argv[3]);
 	params->time_to_die = ft_atoi(argv[4]);
+	params->number_forks = params->number_of_philo;
 	if (argc == 6)
 		params->number_times_philo_eat = ft_atoi(argv[5]);
 	else
 		params->number_times_philo_eat = -1;
-	populate_lst_philos(params);
-	populate_lst_forks(params);
+	params->lst_philos = (pthread_t *)malloc(sizeof(pthread_t) * params->number_of_philo);
+
 }
