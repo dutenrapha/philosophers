@@ -31,6 +31,7 @@ re: fclean all run
 config:
 	@mkdir -p obj
 	@mkdir -p lib
+	@clear
 
 run:
 	@clear
