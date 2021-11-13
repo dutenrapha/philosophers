@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:36:17 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/13 03:54:22 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/13 16:39:34 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	main(int argc, char *argv[ ])
 
 	set_philos(&params, argc, argv);
 	dinner(&params);
-	// free(params.forks);
-	free(params.states);
+	free(params.forks);
 	return (0);
 }

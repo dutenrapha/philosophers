@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:39:03 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/13 05:04:27 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/13 16:41:52 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ typedef struct	s_params
 	int	time_to_sleep;
 	int	time_to_die;
 	int	number_times_philo_eat;
-	int	*states;
 	pthread_mutex_t print;
+	pthread_mutex_t waiter;
 	pthread_mutex_t *forks;
 }				t_params;
 

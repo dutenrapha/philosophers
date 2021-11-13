@@ -6,18 +6,19 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 18:08:31 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/13 05:45:04 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/13 16:42:50 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
 
-static void	grab_chopstick(t_philo *p, int c)
+static void	grab_fork(t_philo *p, int c)
 {
 	pthread_mutex_lock(&p->params->forks[c]);
+	printf("%d has taken a fork\n", p->name);
 }
 
-static void	down_chopsticks(t_philo *p,int c1, int c2)
+static void	down_fork(t_philo *p,int c1, int c2)
 {
 	pthread_mutex_unlock(&p->params->forks[c1]);
 	pthread_mutex_unlock(&p->params->forks[c2]);
@@ -29,30 +30,24 @@ static void *philosopher (void *arg)
 	p = (t_philo *)arg;
 	while(1)
 	{
-
-		if (p->name != 0)
-			printf ("%d is thinking\n", p->name);
+		if (p->params->number_times_philo_eat != -1)
+			if (p->meals_eaten == p->params->number_times_philo_eat)
+			{
+				break;
+			}
+		pthread_mutex_lock(&p->params->waiter);
 		pthread_mutex_lock(&p->params->print);
-		if (p->name == p->params->number_of_philo - 1)
-		{
-			grab_chopstick(p, p->right);
-			grab_chopstick(p, p->left);
-		}
-		else
-		{
-			grab_chopstick(p, p->left);
-			grab_chopstick(p, p->right);
-		}
-		printf("%d has taken a fork\n", p->name);
-		printf("%d has taken a fork\n", p->name);
+		grab_fork(p, p->left);
+		grab_fork(p, p->right);
+		pthread_mutex_unlock(&p->params->waiter);
 		printf("%d is eating\n", p->name);
-		pthread_mutex_unlock(&p->params->print);
-		sleep(8);
-		//usleep(p->params->time_to_eat);
-		down_chopsticks(p, p->right, p->left);
+		p->meals_eaten++;
+		usleep(p->params->time_to_eat);
+		down_fork(p, p->right, p->left);
 		printf ("%d is sleeping\n", p->name);
-		sleep(2);
-		//usleep(p->params->time_to_sleep);
+		printf ("%d is thinking\n", p->name);
+		pthread_mutex_unlock(&p->params->print);
+		usleep(p->params->time_to_sleep);
 
 	}
 	return (NULL);
