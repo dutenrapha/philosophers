@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 18:08:31 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/13 16:42:50 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/14 03:31:09 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 static void	grab_fork(t_philo *p, int c)
 {
 	pthread_mutex_lock(&p->params->forks[c]);
-	printf("%d has taken a fork\n", p->name);
+	printf("%llu %d has taken a fork\n",get_time() - p->params->start, p->name);
 }
 
-static void	down_fork(t_philo *p,int c1, int c2)
+static void	down_fork(t_philo *p, int c1, int c2)
 {
 	pthread_mutex_unlock(&p->params->forks[c1]);
 	pthread_mutex_unlock(&p->params->forks[c2]);
@@ -26,7 +26,9 @@ static void	down_fork(t_philo *p,int c1, int c2)
 
 static void *philosopher (void *arg)
 {
-	t_philo	*p;
+	t_philo		*p;
+	int64_t		time_eat;
+
 	p = (t_philo *)arg;
 	while(1)
 	{
@@ -40,14 +42,16 @@ static void *philosopher (void *arg)
 		grab_fork(p, p->left);
 		grab_fork(p, p->right);
 		pthread_mutex_unlock(&p->params->waiter);
-		printf("%d is eating\n", p->name);
+		time_eat = get_time() - p->params->start;
+		printf("%ld %d is eating\n",time_eat, p->name);
 		p->meals_eaten++;
-		usleep(p->params->time_to_eat);
+		usleep(p->params->time_to_eat * 1000);
 		down_fork(p, p->right, p->left);
-		printf ("%d is sleeping\n", p->name);
-		printf ("%d is thinking\n", p->name);
+		printf ("%llu %d is sleeping\n",get_time() - p->params->start, p->name);
+		usleep(p->params->time_to_sleep * 1000);
+		printf ("%llu %d is thinking\n\n",get_time() - p->params->start, p->name);
 		pthread_mutex_unlock(&p->params->print);
-		usleep(p->params->time_to_sleep);
+
 
 	}
 	return (NULL);
@@ -65,6 +69,7 @@ void	dinner(t_params *p)
 	{
 		phi[i].name = i;
 		phi[i].meals_eaten = 0;
+		phi[i].last_meal_time = 0;
 		phi[i].left = i;
 		phi[i].right = (i + 1) % p->number_of_philo;
 		phi[i].params = p;

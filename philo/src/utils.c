@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:11:52 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/13 16:42:00 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/14 03:03:52 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	set_philos(t_params *p, int argc, char *argv[ ])
 	int	i;
 
 	p->number_of_philo = ft_atoi(argv[1]);
-	p->time_to_eat = ft_atoi(argv[2]);
-	p->time_to_sleep = ft_atoi(argv[3]);
-	p->time_to_die = ft_atoi(argv[4]);
+	p->time_to_die = ft_atoi(argv[2]);
+	p->time_to_eat = ft_atoi(argv[3]);
+	p->time_to_sleep = ft_atoi(argv[4]);
 	if (argc == 6)
 		p->number_times_philo_eat = ft_atoi(argv[5]);
 	else
@@ -74,4 +74,12 @@ void	set_philos(t_params *p, int argc, char *argv[ ])
 	}
 	pthread_mutex_init(&p->print, NULL);
 	pthread_mutex_init(&p->waiter, NULL);
+}
+
+__uint64_t	get_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * (__uint64_t)1000 + time.tv_usec / (__uint64_t)1000);
 }
