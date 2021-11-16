@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:11:52 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/16 03:41:44 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/16 04:21:21 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,14 @@ void	set_philos(t_params *p, int argc, char *argv[ ])
 		p->number_times_philo_eat = ft_atoi(argv[5]);
 	else
 		p->number_times_philo_eat = -1;
-	p->states = (int *)malloc(sizeof(int) * p->number_of_philo);
 	p->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * p->number_of_philo);
 	i = 0;
 	while (i < p->number_of_philo)
 	{
-		p->states[i] = THINKING;
 		pthread_mutex_init(&p->forks[i], NULL);
 		i++;
 	}
+	p->death = false;
 	pthread_mutex_init(&p->print, NULL);
 }
 
@@ -88,4 +87,26 @@ __uint64_t	get_time(void)
 int64_t	time_diff(int64_t start_time)
 {
 	return (get_time() - start_time);
+}
+
+bool	is_dead(t_philo *p)
+{
+	int64_t	time_from_last_meal;
+
+	time_from_last_meal = get_time() - p->t_last_meal;
+	return (time_from_last_meal > p->params->time_to_die);
+}
+
+bool	death_handler(t_philo *p)
+{
+	pthread_mutex_lock(&p->params->dead);
+	if (p->params->death)
+		pthread_mutex_unlock(&p->params->dead);
+	else
+	{
+		p->params->death = true;
+		printf("%ld %d has died\n", time_diff(p->params->start), p->name);
+		pthread_mutex_unlock(&p->params->dead);
+	}
+	return (false);
 }

@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:39:03 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/16 03:41:33 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/16 05:00:10 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,15 @@
 
 typedef struct	s_params
 {
-	int	number_of_philo;
-	int	time_to_eat;
-	int	time_to_sleep;
-	int	time_to_die;
-	int	*states;
-	int	number_times_philo_eat;
+	int				number_of_philo;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				time_to_die;
+	bool			death;
+	int				number_times_philo_eat;
 	long long int	start;
 	pthread_mutex_t print;
+	pthread_mutex_t dead;
 	pthread_mutex_t *forks;
 }				t_params;
 
@@ -43,6 +44,7 @@ typedef struct	s_philo
 	int64_t			t_taken_l_fork;
 	int64_t			t_taken_r_fork;
 	int64_t			t_last_meal;
+	int64_t			t_meal;
 	int64_t			t_last_sleep;
 	int64_t			t_died;
 	int				right;
@@ -55,4 +57,6 @@ void		set_philos(t_params *p, int argc, char *argv[ ]);
 void		dinner(t_params *p);
 __uint64_t	get_time(void);
 int64_t	time_diff(int64_t start_time);
+bool	is_dead(t_philo *p);
+bool	death_handler(t_philo *philo);
 #endif
