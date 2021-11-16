@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:11:52 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/14 03:03:52 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/16 03:41:44 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,15 +65,16 @@ void	set_philos(t_params *p, int argc, char *argv[ ])
 		p->number_times_philo_eat = ft_atoi(argv[5]);
 	else
 		p->number_times_philo_eat = -1;
+	p->states = (int *)malloc(sizeof(int) * p->number_of_philo);
 	p->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * p->number_of_philo);
 	i = 0;
 	while (i < p->number_of_philo)
 	{
+		p->states[i] = THINKING;
 		pthread_mutex_init(&p->forks[i], NULL);
 		i++;
 	}
 	pthread_mutex_init(&p->print, NULL);
-	pthread_mutex_init(&p->waiter, NULL);
 }
 
 __uint64_t	get_time(void)
@@ -82,4 +83,9 @@ __uint64_t	get_time(void)
 
 	gettimeofday(&time, NULL);
 	return (time.tv_sec * (__uint64_t)1000 + time.tv_usec / (__uint64_t)1000);
+}
+
+int64_t	time_diff(int64_t start_time)
+{
+	return (get_time() - start_time);
 }
