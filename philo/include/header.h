@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:39:03 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/19 14:42:34 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/19 14:48:57 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct	s_params
 	int				number_times_philo_eat;
 	long long int	start;
 	pthread_mutex_t print;
-	pthread_mutex_t dead;
 	pthread_mutex_t *forks;
 }				t_params;
 
@@ -46,7 +45,6 @@ typedef struct	s_philo
 	int64_t			t_last_meal;
 	int64_t			t_meal;
 	int64_t			t_sleep;
-	int64_t			t_died;
 	int				left;
 	int				right;
 	struct s_params	*params;

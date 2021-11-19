@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 18:08:31 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/19 14:41:55 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/19 14:50:39 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,64 +64,29 @@ static bool	philo_eats(t_philo *p)
 	return (result);
 }
 
-
-static void	death_sequence(t_philo *p)
-{
-	pthread_mutex_lock(&p->params->print);
-	p->params->death = true;
-	printf ("%ld %d died\n",time_diff(p->params->start), p->name);
-	pthread_mutex_unlock(&p->params->print);
-}
-
-static void	*monitor(void *arg)
-{
-	t_philo	*p;
-
-	p = (t_philo *)arg;
-	while (1)
-	{
-		if (p->params->death == true)
-			return ((void *)1);
-		if (p->params->number_times_philo_eat != -1)
-			if (p->meals_eaten == p->params->number_times_philo_eat)
-			{
-				return ((void *)1);
-			}
-		if (time_diff(p->t_last_meal) > p->params->time_to_die && p->params->death == false)
-		{
-			pthread_mutex_lock(&p->params->dead);
-			death_sequence(p);
-			pthread_mutex_unlock(&p->params->dead);
-			return ((void *)1);
-		}
-	}
-	return (NULL);
-}
-
 static void *philosopher(void *arg)
 {
 	t_philo	*p;
-	pthread_t	death_monitor;
 	p = (t_philo *)arg;
 
-
-	pthread_create(&death_monitor, NULL, &monitor, p);
-	pthread_detach(death_monitor);
 	while(1)
 	{
-		if (p->params->death == true)
-			return ((void *)1);
-			if(!philo_eats(p))
+		if (p->params->number_times_philo_eat != -1)
+			if (p->meals_eaten == p->params->number_times_philo_eat)
+			{
 				break;
-			if(!sleeping(p))
-				break;
-			pthread_mutex_lock(&p->params->print);
-			printf("%ld %d has taken a fork\n",p->t_taken_l_fork, p->name);
-			printf("%ld %d has taken a fork\n",p->t_taken_r_fork, p->name);
-			printf("%ld %d is eating the %d meal\n",p->t_meal, p->name,p->meals_eaten);
-			printf("%ld %d is sleeping\n",p->t_sleep, p->name);
-			printf ("%ld %d is thinkink\n",time_diff(p->params->start), p->name);
-			pthread_mutex_unlock(&p->params->print);
+			}
+		if(!philo_eats(p))
+			break;
+		if(!sleeping(p))
+			break;
+		pthread_mutex_lock(&p->params->print);
+		printf("%ld %d has taken a fork\n",p->t_taken_l_fork, p->name);
+		printf("%ld %d has taken a fork\n",p->t_taken_r_fork, p->name);
+		printf("%ld %d is eating the %d meal\n",p->t_meal, p->name,p->meals_eaten);
+		printf("%ld %d is sleeping\n",p->t_sleep, p->name);
+		printf ("%ld %d is thinkink\n",time_diff(p->params->start), p->name);
+		pthread_mutex_unlock(&p->params->print);
 	}
 	return (NULL);
 }
@@ -143,7 +108,6 @@ void	dinner(t_params *p)
 		phi[i].t_last_meal = 0;
 		phi[i].t_meal = 0;
 		phi[i].t_sleep = 0;
-		phi[i].t_died = 0;
 		phi[i].left = i;
 		phi[i].right = (i + 1) % p->number_of_philo;
 		phi[i].params = p;

@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:11:52 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/19 14:42:22 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/19 14:49:07 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	set_philos(t_params *p, int argc, char *argv[ ])
 		pthread_mutex_init(&p->forks[i], NULL);
 		i++;
 	}
-	p->death = false;
 	pthread_mutex_init(&p->print, NULL);
 }
 
