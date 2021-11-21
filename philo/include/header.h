@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:39:03 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/19 14:42:34 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/21 18:39:32 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct	s_philo
 	int64_t			t_meal;
 	int64_t			t_sleep;
 	int64_t			t_died;
+	bool			is_satisfied;
 	int				left;
 	int				right;
 	struct s_params	*params;
