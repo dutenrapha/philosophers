@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 18:08:31 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/21 23:04:23 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/22 00:25:35 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ static bool	philo_eats(t_philo *p)
 	bool	result;
 
 	result = true;
-	if (p->name == p->params->number_of_philo - 1)
-	// if (p->name % 2 == 0)
+	//if (p->name == p->params->number_of_philo - 1)
+	if (p->name % 2 == 0)
 	{
 		pthread_mutex_lock(&p->params->forks[p->left]);
 		p->t_taken_l_fork = time_diff(p->params->start);
@@ -123,11 +123,12 @@ static void	*monitor(void *arg)
 		}
 		if (p->meals_eaten > 0)
 		{
-			if (time_diff(p->t_last_meal) >  p->params->time_to_die && p->params->death == false)
+			if (time_diff(p->params->start) - p->t_meal - 20 >  p->params->time_to_die && p->params->death == false)
+			// if (time_diff(p->t_last_meal) >  p->params->time_to_die && p->params->death == false)
 			{
 				pthread_mutex_lock(&p->params->dead);
 				p->params->death = true;
-				printf ("%ld %d died\n",time_diff(p->params->start), p->name);
+				printf ("%ld %d died\n",time_diff(p->params->start) - 20, p->name);
 				pthread_mutex_unlock(&p->params->dead);
 				return ((void *)1);
 			}
