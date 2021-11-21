@@ -101,7 +101,6 @@ static bool	philo_eats(t_philo *p)
 	return (result);
 }
 
-
 static void	*monitor(void *arg)
 {
 	t_philo	*p;
@@ -138,8 +137,8 @@ static void	*monitor(void *arg)
 static void *philosopher(void *arg)
 {
 	t_philo	*p;
-	pthread_t	death_monitor;
 	p = (t_philo *)arg;
+
 
 	if (pthread_create(&death_monitor, NULL, &monitor, p) != 0)
 		return ((void *)1);
@@ -157,6 +156,7 @@ static void *philosopher(void *arg)
 		pthread_mutex_lock(&p->params->print);
 		if (!p->params->death)
 			printf("%ld %d is thinkink\n",time_diff(p->params->start), p->name);
+
 		pthread_mutex_unlock(&p->params->print);
 	}
 	return (NULL);

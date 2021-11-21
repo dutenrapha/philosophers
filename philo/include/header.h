@@ -33,7 +33,6 @@ typedef struct	s_params
 	int				number_times_philo_eat;
 	long long int	start;
 	pthread_mutex_t print;
-	pthread_mutex_t dead;
 	pthread_mutex_t *forks;
 }				t_params;
 
