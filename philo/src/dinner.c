@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 18:08:31 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/21 20:55:19 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:04:23 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static bool	philo_eats(t_philo *p)
 	bool	result;
 
 	result = true;
-	if (p->name != p->params->number_of_philo - 1)
+	if (p->name == p->params->number_of_philo - 1)
+	// if (p->name % 2 == 0)
 	{
 		pthread_mutex_lock(&p->params->forks[p->left]);
 		p->t_taken_l_fork = time_diff(p->params->start);
@@ -107,7 +108,7 @@ static void	*monitor(void *arg)
 	t_philo	*p;
 
 	p = (t_philo *)arg;
-	usleep(6000);
+	usleep(10000);
 	while (1)
 	{
 		if (p->params->death == true)
@@ -167,7 +168,6 @@ void	dinner(t_params *p)
 	int	i;
 	t_philo *phi;
 
-
 	phi = (t_philo *)malloc(sizeof(t_philo) * p->number_of_philo);
 	i = 0;
 	while (i < p->number_of_philo)
@@ -181,8 +181,8 @@ void	dinner(t_params *p)
 		phi[i].t_sleep = 0;
 		phi[i].t_died = 0;
 		phi[i].is_satisfied = false;
-		phi[i].left = i;
-		phi[i].right = (i + 1) % p->number_of_philo;
+		phi[i].right = i;
+		phi[i].left = (i + 1) % p->number_of_philo;
 		phi[i].params = p;
 		i++;
 	}

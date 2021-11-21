@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:39:03 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/21 20:55:17 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/21 23:13:38 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # define EATING 0
 # define SLEEPING 1
 # define THINKING 2
+
+typedef struct timeval	t_tv;
 
 typedef struct	s_params
 {
