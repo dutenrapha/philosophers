@@ -6,7 +6,7 @@
 /*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 18:08:31 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/21 20:32:33 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/21 20:55:19 by rdutenke         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ static bool	philo_eats(t_philo *p)
 	return (result);
 }
 
+
 static void	*monitor(void *arg)
 {
 	t_philo	*p;
@@ -137,8 +138,8 @@ static void	*monitor(void *arg)
 static void *philosopher(void *arg)
 {
 	t_philo	*p;
+	pthread_t	death_monitor;
 	p = (t_philo *)arg;
-
 
 	if (pthread_create(&death_monitor, NULL, &monitor, p) != 0)
 		return ((void *)1);
@@ -156,7 +157,6 @@ static void *philosopher(void *arg)
 		pthread_mutex_lock(&p->params->print);
 		if (!p->params->death)
 			printf("%ld %d is thinkink\n",time_diff(p->params->start), p->name);
-
 		pthread_mutex_unlock(&p->params->print);
 	}
 	return (NULL);
