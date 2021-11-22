@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:11:52 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/21 23:14:33 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/22 00:37:21 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,24 +79,10 @@ void	set_philos(t_params *p, int argc, char *argv[ ])
 
 __uint64_t	get_time(void)
 {
-	// struct timeval	time;
+	struct timeval	time;
 
-	// gettimeofday(&time, NULL);
-	// return (time.tv_sec * (__uint64_t)1000 + time.tv_usec / (__uint64_t)1000);
-
-	t_tv			current_time;
-	static int64_t	start_time_sec = 0;
-	static int64_t	start_time_usec = 0;
-
-	gettimeofday(&current_time, NULL);
-	if (!start_time_sec)
-	{
-		start_time_sec = current_time.tv_sec;
-		start_time_usec = current_time.tv_usec;
-	}
-	return ((current_time.tv_sec - start_time_sec) * 1000
-		+ (current_time.tv_usec - start_time_usec) / 1000);
-
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * (__uint64_t)1000 + time.tv_usec / (__uint64_t)1000);
 
 }
 

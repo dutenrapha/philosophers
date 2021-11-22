@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dinner.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/17 18:08:31 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/22 00:25:35 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/22 01:09:09 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static void	*monitor(void *arg)
 	t_philo	*p;
 
 	p = (t_philo *)arg;
-	usleep(10000);
+	// usleep(10000);
 	while (1)
 	{
 		if (p->params->death == true)
@@ -123,12 +123,13 @@ static void	*monitor(void *arg)
 		}
 		if (p->meals_eaten > 0)
 		{
-			if (time_diff(p->params->start) - p->t_meal - 20 >  p->params->time_to_die && p->params->death == false)
+			if (time_diff(p->params->start) - p->t_meal  - 20 >  p->params->time_to_die && p->params->death == false)
 			// if (time_diff(p->t_last_meal) >  p->params->time_to_die && p->params->death == false)
 			{
 				pthread_mutex_lock(&p->params->dead);
+				if (!p->params->death)
+					printf ("%ld %d died\n",time_diff(p->params->start) - 20, p->name);
 				p->params->death = true;
-				printf ("%ld %d died\n",time_diff(p->params->start) - 20, p->name);
 				pthread_mutex_unlock(&p->params->dead);
 				return ((void *)1);
 			}
@@ -143,6 +144,13 @@ static void *philosopher(void *arg)
 	pthread_t	death_monitor;
 	p = (t_philo *)arg;
 
+	if (p->params->number_of_philo ==1)
+	{
+		printf("%ld %d has taken a right fork %d\n",p->t_taken_r_fork, p->name, p->right);
+		usleep(1000 * p->params->time_to_die);
+		printf ("%ld %d died\n",time_diff(p->params->start), p->name);
+		return (NULL);
+	}
 	if (pthread_create(&death_monitor, NULL, &monitor, p) != 0)
 		return ((void *)1);
 	pthread_detach(death_monitor);
@@ -158,7 +166,7 @@ static void *philosopher(void *arg)
 			break;
 		pthread_mutex_lock(&p->params->print);
 		if (!p->params->death)
-			printf("%ld %d is thinkink\n",time_diff(p->params->start), p->name);
+			printf("%ld %d is thinking\n",time_diff(p->params->start), p->name);
 		pthread_mutex_unlock(&p->params->print);
 	}
 	return (NULL);
