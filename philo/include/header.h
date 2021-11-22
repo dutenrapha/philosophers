@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rdutenke <rdutenke@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:39:03 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/21 23:13:38 by rdutenke         ###   ########.fr       */
+/*   Updated: 2021/11/23 00:15:25 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@
 # define EATING 0
 # define SLEEPING 1
 # define THINKING 2
+# define DELAY 1000
 
-typedef struct timeval	t_tv;
+typedef unsigned long long int	t_microsec;
 
-typedef struct	s_params
+typedef struct s_params
 {
 	int				number_of_philo;
 	int				time_to_eat;
@@ -34,21 +35,15 @@ typedef struct	s_params
 	bool			death;
 	int				number_times_philo_eat;
 	long long int	start;
-	pthread_mutex_t print;
-	pthread_mutex_t dead;
-	pthread_mutex_t *forks;
+	pthread_mutex_t	dead;
+	pthread_mutex_t	*forks;
 }				t_params;
 
-typedef struct	s_philo
+typedef struct s_philo
 {
 	int				name;
 	int				meals_eaten;
-	int64_t			t_taken_l_fork;
-	int64_t			t_taken_r_fork;
 	int64_t			t_last_meal;
-	int64_t			t_meal;
-	int64_t			t_sleep;
-	int64_t			t_died;
 	bool			is_satisfied;
 	int				left;
 	int				right;
@@ -58,6 +53,12 @@ typedef struct	s_philo
 
 void		set_philos(t_params *p, int argc, char *argv[ ]);
 void		dinner(t_params *p);
-__uint64_t	get_time(void);
-int64_t	time_diff(int64_t start_time);
+t_microsec	get_time(void);
+int			delta_time(t_microsec init, t_microsec now);
+void		sleeep_ms(int time);
+bool		sleeping(t_philo *p);
+bool		eating(t_philo *p);
+bool		philo_eats(t_philo *p);
+void		init_phi(t_philo *phi, t_params *p, int i);
+void		*monitor(void *arg);
 #endif

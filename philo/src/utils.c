@@ -6,7 +6,7 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:11:52 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/22 00:37:21 by coder            ###   ########.fr       */
+/*   Updated: 2021/11/22 23:54:00 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ void	set_philos(t_params *p, int argc, char *argv[ ])
 		p->number_times_philo_eat = ft_atoi(argv[5]);
 	else
 		p->number_times_philo_eat = -1;
-	p->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t) * p->number_of_philo);
+	p->forks = (pthread_mutex_t *)malloc(sizeof(pthread_mutex_t)
+			* p->number_of_philo);
 	i = 0;
 	while (i < p->number_of_philo)
 	{
@@ -74,21 +75,15 @@ void	set_philos(t_params *p, int argc, char *argv[ ])
 	}
 	p->death = false;
 	pthread_mutex_init(&p->dead, NULL);
-	pthread_mutex_init(&p->print, NULL);
 }
 
-__uint64_t	get_time(void)
+void	init_phi(t_philo *phi, t_params *p, int i)
 {
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * (__uint64_t)1000 + time.tv_usec / (__uint64_t)1000);
-
+	phi->name = i;
+	phi->meals_eaten = 0;
+	phi->t_last_meal = 0;
+	phi->is_satisfied = false;
+	phi->right = i;
+	phi->left = (i + 1) % p->number_of_philo;
+	phi->params = p;
 }
-
-int64_t	time_diff(int64_t start_time)
-{
-	return (get_time() - start_time);
-}
-
-
