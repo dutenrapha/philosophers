@@ -16,32 +16,28 @@ OBJ=$(addprefix $(OBJ_PATH)/, $(SRC:.c=.o))
 all: config $(NAME)
 
 clean:
-	@rm -f $(OBJ_PATH)/*.o
+	rm -f $(OBJ_PATH)/*.o
 
 fclean:	clean
-	@rm -f $(LIB_PATH)/*.a
-	@rm -f $(NAME)
-	@rm -f *.o
-	@rm -fR *.dSYM
-	@rm -fR obj
-	@rm -fR lib
+	rm -f $(LIB_PATH)/*.a
+	rm -f $(NAME)
+	rm -f *.o
+	rm -fR *.dSYM
+	rm -fR obj
+	rm -fR lib
 
-re: fclean all run
+re: fclean all
 
 config:
-	@mkdir -p obj
-	@mkdir -p lib
-
-run:
-	@clear
-	@./$(NAME) 5 800 200 200
+	mkdir -p obj
+	mkdir -p lib
 
 $(NAME): $(LIB)
-	@$(CC) $(FLAGS) $(MAIN) -g -L. -pthread $(LIB) -o $@
+	$(CC) $(FLAGS) $(MAIN) -g -L. -pthread $(LIB) -o $@
 
 $(LIB): $(OBJ)
-	@ar rcs $@ $(OBJ)
+	ar rcs $@ $(OBJ)
 
 $(OBJ_PATH)/%.o:	$(SRC_PATH)/%.c
-	@$(CC) -g $(FLAGS) -c $< -o $@
+	$(CC) -g $(FLAGS) -c $< -o $@
 

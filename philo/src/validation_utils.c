@@ -1,26 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   validation_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/13 18:36:17 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/23 01:09:11 by coder            ###   ########.fr       */
+/*   Created: 2021/11/23 00:34:23 by coder             #+#    #+#             */
+/*   Updated: 2021/11/23 01:08:28 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "include/header.h"
+#include "../include/header.h"
 
-int	main(int argc, char *argv[ ])
+static int	ft_isdigit(int c)
 {
-	t_params	params;
-
-	if (!is_validation_ok(argc, argv))
+	if (c >= '0' && c <= '9')
 		return (1);
-	set_philos(&params, argc, argv);
-	params.start = get_time();
-	dinner(&params);
-	free(params.forks);
 	return (0);
+}
+
+int	is_string_number(char *string)
+{
+	if (*string == '-')
+		string++;
+	while (*string)
+		if (!ft_isdigit(*string++))
+			return (false);
+	return (true);
+}
+
+int	is_integer(int number)
+{
+	if (number > INT_MAX)
+		return (false);
+	if (number < INT_MIN)
+		return (false);
+	return (true);
 }

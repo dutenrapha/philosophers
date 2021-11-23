@@ -6,7 +6,7 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 18:39:03 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/23 00:15:25 by coder            ###   ########.fr       */
+/*   Updated: 2021/11/23 01:15:36 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <sys/time.h>
-# define EATING 0
-# define SLEEPING 1
-# define THINKING 2
+# include <limits.h>
 # define DELAY 1000
 
 typedef unsigned long long int	t_microsec;
@@ -51,6 +49,12 @@ typedef struct s_philo
 	pthread_t		thread;
 }				t_philo;
 
+int			is_integer(int number);
+int			is_string_number(char *string);
+bool		is_number_of_arguments_correct(int argc);
+int			ft_atoi(const char *nptr);
+bool		is_validation_ok(int argc, char *argv[ ]);
+bool		is_valid_number(char *str_number);
 void		set_philos(t_params *p, int argc, char *argv[ ]);
 void		dinner(t_params *p);
 t_microsec	get_time(void);

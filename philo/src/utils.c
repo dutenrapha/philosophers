@@ -6,7 +6,7 @@
 /*   By: coder <coder@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 19:11:52 by rdutenke          #+#    #+#             */
-/*   Updated: 2021/11/22 23:54:00 by coder            ###   ########.fr       */
+/*   Updated: 2021/11/23 00:58:48 by coder            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static	int	ft_return(int sinal)
 	}
 }
 
-static int	ft_atoi(const char *nptr)
+int	ft_atoi(const char *nptr)
 {
 	int			i;
 	int			sinal;
